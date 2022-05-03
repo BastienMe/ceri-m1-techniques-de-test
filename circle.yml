@@ -32,7 +32,7 @@ jobs:
           
       - codecov/upload
       
-      -run:
+      - run:
           name: CheckStyle
           command: mvn site
 # Invoke jobs via workflows
