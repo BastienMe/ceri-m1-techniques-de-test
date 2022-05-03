@@ -30,8 +30,7 @@ jobs:
           name: Test
           command: mvn test
           
-      - codecov/upload:
-            file: "target/jacoco.exec"
+      - codecov/upload
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
