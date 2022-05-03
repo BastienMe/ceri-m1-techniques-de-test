@@ -31,7 +31,10 @@ jobs:
           command: mvn test
           
       - codecov/upload
-
+      
+      -run:
+          name: CheckStyle
+          command: mvn site
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
