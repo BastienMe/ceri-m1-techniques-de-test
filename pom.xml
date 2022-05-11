@@ -181,8 +181,8 @@
 		        <artifactId>maven-javadoc-plugin</artifactId>
 		        <version>3.4.0</version>
 		        <configuration>
-		          <show>private</show>
-		          <nohelp>true</nohelp>
+		          <reportOutputDirectory>/docs</reportOutputDirectory>
+		         
 		        </configuration>
     	   </plugin>
 		</plugins>
@@ -196,7 +196,7 @@
 		        <version>3.4.0</version>
 		        <configuration>
 		     
-		          <reportOutputDirectory>${project.basedir}/docs/</reportOutputDirectory>
+		          <reportOutputDirectory>/docs</reportOutputDirectory>
 		          <destDir>docss</destDir>
 		        </configuration>
 		      </plugin>
