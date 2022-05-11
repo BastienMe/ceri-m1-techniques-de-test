@@ -181,7 +181,7 @@
 		        <artifactId>maven-javadoc-plugin</artifactId>
 		        <version>3.4.0</version>
 		        <configuration>
-		          <reportOutputDirectory>/docs</reportOutputDirectory>
+		          <reportOutputDirectory>${project.basedir}/docs</reportOutputDirectory>
 		         
 		        </configuration>
     	   </plugin>
@@ -196,8 +196,8 @@
 		        <version>3.4.0</version>
 		        <configuration>
 		     
-		          <reportOutputDirectory>/docs</reportOutputDirectory>
-		          <destDir>docss</destDir>
+		          <reportOutputDirectory>${project.basedir}/docs</reportOutputDirectory>
+		          
 		        </configuration>
 		      </plugin>
 
