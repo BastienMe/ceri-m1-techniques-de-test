@@ -15,6 +15,22 @@ jobs:
         - run:
             name: Build docs
             command: mvn javadoc:javadoc
+  docs-deploy:
+    docker:
+      - image: node:8.10.0
+    steps:
+      - checkout
+      - attach_workspace:
+          at: docs/_build
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.0.1
+            git config user.email "meffrebastien84@gmail.com"
+            git config user.name "BastienMe"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dist docs/_build/html
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
   build-and-test:
    
