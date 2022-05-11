@@ -67,47 +67,87 @@
 	 
 
 		
-<plugin>
-  <groupId>org.jacoco</groupId>
-  <artifactId>jacoco-maven-plugin</artifactId>
-  <version>0.8.6</version>
-  <executions>
-  	<execution>
-      	<id>prepare-agent</id>
-            <goals>
-            		<goal>prepare-agent</goal>
-            </goals>
-      </execution>
-      <execution>
-            <id>report</id>
-            <phase>test</phase>
-               <goals>
-               	<goal>report</goal>
-               </goals>
-        </execution>
-    </executions>
- </plugin>
-	<plugin>
-	  <groupId>org.jacoco</groupId>
-	  <artifactId>jacoco-maven-plugin</artifactId>
-	  <version>0.8.8</version>
-	  <executions>
-	  	<execution>
-	      	<id>prepare-agent</id>
-	            <goals>
-	             <goal>prepare-agent</goal>
-	            </goals>
-	      </execution>
-	      <execution>
-	            <id>report</id>
-	            <phase>test</phase>
-	               <goals>
-	               <goal>report</goal>
-	               </goals>
-	        </execution>
-	    </executions>
-	 </plugin>
+		<plugin>
+		  <groupId>org.jacoco</groupId>
+		  <artifactId>jacoco-maven-plugin</artifactId>
+		  <version>0.8.6</version>
+		  <executions>
+		  	<execution>
+		      	<id>prepare-agent</id>
+		            <goals>
+		            		<goal>prepare-agent</goal>
+		            </goals>
+		      </execution>
+		      <execution>
+		            <id>report</id>
+		            <phase>test</phase>
+		               <goals>
+		               	<goal>report</goal>
+		               </goals>
+		        </execution>
+		    </executions>
+		 </plugin>
+			<plugin>
+			  <groupId>org.jacoco</groupId>
+			  <artifactId>jacoco-maven-plugin</artifactId>
+			  <version>0.8.8</version>
+			  <executions>
+			  	<execution>
+			      	<id>prepare-agent</id>
+			            <goals>
+			             <goal>prepare-agent</goal>
+			            </goals>
+			      </execution>
+			      <execution>
+			            <id>report</id>
+			            <phase>test</phase>
+			               <goals>
+			               <goal>report</goal>
+			               </goals>
+			        </execution>
+			    </executions>
+			 </plugin>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.2</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.github.sevntu-checkstyle</groupId>
+                        <artifactId>sevntu-checks</artifactId>
+                        <version>1.42.0</version>
+                    </dependency>
+                </dependencies>
+                <!-- https://maven.apache.org/plugins/maven-checkstyle-plugin/checkstyle-mojo.html -->
+                <!-- Properties for "mvn checkstyle:checkstyle" to execute without mvn build -->
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <!-- linkXRef=false to avoid WARNING 'Unable to locate Source XRef to link to' -->
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <!-- https://maven.apache.org/plugins/maven-checkstyle-plugin/check-mojo.html -->
+                <!-- Properties for "mvn checkstyle:check" to execute as part of maven build
+                     They are conflicting with properties of checkstyle:checkstyle
+                     so only one set should be used
+                -->
+                <!--
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <consoleOutput>true</consoleOutput>
+                    <failOnViolation>true</failOnViolation>
+                    <failsOnError>false</failsOnError>
+                </configuration>
+                -->
+            </plugin>
 	</plugins>
 	<pluginManagement>
 		<plugins>
@@ -140,24 +180,46 @@
 					</lifecycleMappingMetadata>
 				</configuration>
 			</plugin>
+			<plugin>
+			<groupId>com.github.bordertech.buildtools</groupId>
+			<artifactId>badger</artifactId>
+			<version>1.0.0</version>
+			<executions>
+				<execution>
+					<phase>post-site</phase>
+					<goals>
+						<goal>badges</goal>
+					</goals>
+					<configuration>
+						<skip>${badges.skip}</skip>
+						<outputDir>target/site/badges</outputDir>
+						<inputFiles>
+							<inputFile>target/checkstyle-result.xml</inputFile>
+						</inputFiles>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
 		</plugins>
 	</pluginManagement>
   </build>
 	<reporting>
 	      <plugins>
-	        <plugin>
-	          <groupId>org.apache.maven.plugins</groupId>
-	          <artifactId>maven-checkstyle-plugin</artifactId>
-	          <version>3.1.2</version>
-	          <reportSets>
-	            <reportSet>
-	              <reports>
-	                <report>checkstyle</report>
-	              </reports>
-	            </reportSet>
-	          </reportSets>
-	        </plugin>
-	      </plugins>
+            <!-- Specifying configuration here will take effect
+                 on the execution of "mvn site",
+                 but will NOT take effect on the execution of "mvn checkstyle:check"
+                 or "mvn checkstyle:checkstyle"
+             -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${checkstyle.plugin.version}</version>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <failOnViolation>false</failOnViolation>
+                </configuration>
+            </plugin>
+        </plugins>
 	    </reporting>
   <dependencies>
     <dependency>
